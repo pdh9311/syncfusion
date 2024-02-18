@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:syncfusion_datagrid_proj/controller/employee_controller.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import 'datasource/employee_datasource.dart';
 import 'model/employee.dart';
 
 void main() {
@@ -32,7 +33,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late EmployeeDataSource _employeeDataSource;
+  final con = Get.put(EmployeeController());
+  DataGridController _dataGridController = DataGridController();
+  /* late EmployeeDataSource _employeeDataSource;
   List<Employee> _employees = <Employee>[];
   late DataGridController _dataGridController;
 
@@ -42,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // _employees = getEmployeeData();
     _employeeDataSource = EmployeeDataSource(_employees);
     _dataGridController = DataGridController();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -57,29 +60,30 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    // _employees.add(Employee(1, 'donpark', 'dev', 100));
-                    _employeeDataSource.employees.add(Employee(1, 'donpark', 'dev', 100));
-                    _employeeDataSource.updateDataGridRows();
-                    _employeeDataSource.updateDataGridSource();
-                    print(_employees.length);
-                  });
+                  // _employees.add(Employee(1, 'donpark', 'dev', 100));
+                  // _employeeDataSource.employees.add(Employee(1, 'donpark', 'dev', 100));
+                  // _employeeDataSource.updateDataGridRows();
+                  // _employeeDataSource.updateDataGridSource();
+                  // print(_employees.length);
+                  con.add();
                 },
                 child: Text("추가"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  _employeeDataSource.employees.removeLast();
-                  _employeeDataSource.updateDataGridRows();
-                  _employeeDataSource.updateDataGridSource();
+                  // _employeeDataSource.employees.removeLast();
+                  // _employeeDataSource.updateDataGridRows();
+                  // _employeeDataSource.updateDataGridSource();
+                  con.remove();
                 },
                 child: Text("삭제"),
               ),
               ElevatedButton(
                 onPressed: () {
                   // await 조회 추가
-                  _employeeDataSource.updateDataGridRows();
-                  _employeeDataSource.updateDataGridSource();
+                  // _employeeDataSource.updateDataGridRows();
+                  // _employeeDataSource.updateDataGridSource();
+                  con.find();
                 },
                 child: Text("조회"),
               ),
@@ -87,7 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: SfDataGrid(
-              source: _employeeDataSource,
+              // source: _employeeDataSource,
+              source: con.employeeDataSource,
               allowEditing: true,
               selectionMode: SelectionMode.single,
               navigationMode: GridNavigationMode.cell,

@@ -70,7 +70,7 @@ class EmployeeDataSource extends DataGridSource {
       return;
     }
 
-    if (column.columnName == 'id') {
+    /* if (column.columnName == 'id') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<int>(columnName: 'id', value: newCellValue);
       _employees[dataRowIndex].id = newCellValue as int;
@@ -86,7 +86,20 @@ class EmployeeDataSource extends DataGridSource {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<int>(columnName: 'salary', value: newCellValue);
       _employees[dataRowIndex].salary = newCellValue as int;
-    }
+    } */
+    updateData(dataGridRow, {column.columnName: newCellValue});
+  }
+
+  void updateData(DataGridRow row, Map<String, dynamic> newData) {
+    newData.forEach(((key, value) {
+      var cellList = row.getCells();
+
+      newData.forEach((key, value) {
+        var index = cellList.indexWhere((element) => element.columnName == key);
+        cellList[index] = DataGridCell(columnName: key, value: value);
+      });
+    }));
+    // notifyListeners();
   }
 
   @override
